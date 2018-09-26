@@ -39,10 +39,10 @@ def login():
         if user is not None and user.password_hash is not None and \
                 user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
-            flash('You are now logged in. Welcome back!', 'success')
+            flash('登录成功，欢迎回来!', 'success')
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
-            flash('Invalid email or password.', 'form-error')
+            flash('用户名或者密码无效.', 'form-error')
     return render_template('account/login.html', form=form)
 
 
@@ -77,7 +77,7 @@ def register():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.', 'info')
+    flash('您已经注销', 'info')
     return redirect(url_for('main.index'))
 
 
@@ -124,13 +124,13 @@ def reset_password(token):
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None:
-            flash('Invalid email address.', 'form-error')
+            flash('无效的邮箱。', 'form-error')
             return redirect(url_for('main.index'))
         if user.reset_password(token, form.new_password.data):
-            flash('Your password has been updated.', 'form-success')
+            flash('您的密码已经更新', 'form-success')
             return redirect(url_for('account.login'))
         else:
-            flash('The password reset link is invalid or has expired.',
+            flash('重置密码链接已经失效。',
                   'form-error')
             return redirect(url_for('main.index'))
     return render_template('account/reset_password.html', form=form)
@@ -173,11 +173,11 @@ def change_email_request():
                 # object
                 user=current_user._get_current_object(),
                 change_email_link=change_email_link)
-            flash('A confirmation link has been sent to {}.'.format(new_email),
+            flash('确认邮件已经发送至您的邮箱 {}.'.format(new_email),
                   'warning')
             return redirect(url_for('main.index'))
         else:
-            flash('Invalid email or password.', 'form-error')
+            flash('无效的邮箱或密码。', 'form-error')
     return render_template('account/manage.html', form=form)
 
 
@@ -186,9 +186,9 @@ def change_email_request():
 def change_email(token):
     """Change existing user's email with provided token."""
     if current_user.change_email(token):
-        flash('Your email address has been updated.', 'success')
+        flash('您的邮箱已更新', 'success')
     else:
-        flash('The confirmation link is invalid or has expired.', 'error')
+        flash('确认链接已失效', 'error')
     return redirect(url_for('main.index'))
 
 
@@ -206,7 +206,7 @@ def confirm_request():
         # current_user is a LocalProxy, we want the underlying user object
         user=current_user._get_current_object(),
         confirm_link=confirm_link)
-    flash('A new confirmation link has been sent to {}.'.format(
+    flash('新的激活邮件已经发送至 {}.'.format(
         current_user.email), 'warning')
     return redirect(url_for('main.index'))
 
@@ -218,9 +218,9 @@ def confirm(token):
     if current_user.confirmed:
         return redirect(url_for('main.index'))
     if current_user.confirm_account(token):
-        flash('Your account has been confirmed.', 'success')
+        flash('您的账号已经确认！', 'success')
     else:
-        flash('The confirmation link is invalid or has expired.', 'error')
+        flash('验证链接已经失效或过期！', 'error')
     return redirect(url_for('main.index'))
 
 
@@ -232,7 +232,7 @@ def join_from_invite(user_id, token):
     a password.
     """
     if current_user is not None and current_user.is_authenticated:
-        flash('You are already logged in.', 'error')
+        flash('您已经登录', 'error')
         return redirect(url_for('main.index'))
 
     new_user = User.query.get(user_id)
@@ -240,7 +240,7 @@ def join_from_invite(user_id, token):
         return redirect(404)
 
     if new_user.password_hash is not None:
-        flash('You have already joined.', 'error')
+        flash('账号已经注册过了。', 'error')
         return redirect(url_for('main.index'))
 
     if new_user.confirm_account(token):
@@ -249,14 +249,11 @@ def join_from_invite(user_id, token):
             new_user.password = form.password.data
             db.session.add(new_user)
             db.session.commit()
-            flash('Your password has been set. After you log in, you can '
-                  'go to the "Your Account" page to review your account '
-                  'information and settings.', 'success')
+            flash('您的密码已经设置成功，当您登录之后，您可以在“我的账号”中查看并设置自己的账号信息。', 'success')
             return redirect(url_for('account.login'))
         return render_template('account/join_invite.html', form=form)
     else:
-        flash('The confirmation link is invalid or has expired. Another '
-              'invite email with a new link has been sent to you.', 'error')
+        flash('验证链接已经失效或过期，新的邀请链接已经发送到您的邮箱。', 'error')
         token = new_user.generate_confirmation_token()
         invite_link = url_for(
             'account.join_from_invite',

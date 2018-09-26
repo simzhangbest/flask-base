@@ -3,10 +3,10 @@
 {% import 'macros/check_password.html' as check %}
 
 {% set endpoints = [
-    ('account.manage', 'Account information'),
-    ('account.change_email_request', 'Change email address'),
-    ('account.change_password', 'Change password'),
-    ('account.logout', 'Log out')
+    ('account.manage', '账号信息'),
+    ('account.change_email_request', '修改邮箱'),
+    ('account.change_password', '修改密码'),
+    ('account.logout', '注销')
 ] %}
 
 {% macro navigation(items) %}
@@ -22,9 +22,9 @@
 
 {% macro user_info(user) %}
     <table class="ui compact definition table">
-        <tr><td>Full name</td><td>{{ '%s %s' % (user.first_name, user.last_name) }}</td></tr>
-        <tr><td>Email address</td><td>{{ user.email }}</td></tr>
-        <tr><td>Account type</td><td>{{ user.role.name }}</td></tr>
+        <tr><td>用户名</td><td>{{ '%s %s' % (user.first_name, user.last_name) }}</td></tr>
+        <tr><td>邮箱</td><td>{{ user.email }}</td></tr>
+        <tr><td>账号类型</td><td>{{ user.role.name }}</td></tr>
     </table>
 {% endmacro %}
 
@@ -32,8 +32,8 @@
     <div class="ui stackable centered grid container">
         <div class="twelve wide column">
             <h2 class="ui header">
-                Account Settings
-                <div class="sub header">Manage your account settings and change your login information.</div>
+                账号设置
+                <div class="sub header">账号设置以及修改登录信息</div>
             </h2>
         </div>
         <div class="stretched divided very relaxed row">

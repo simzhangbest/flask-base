@@ -4,10 +4,10 @@
 {% set deletion_endpoint = 'admin.delete_user_request' %}
 
 {% set endpoints = [
-    ('admin.user_info', 'User information'),
-    ('admin.change_user_email', 'Change email address'),
-    ('admin.change_account_type', 'Change account type'),
-    (deletion_endpoint, 'Delete user')
+    ('admin.user_info', '用户信息'),
+    ('admin.change_user_email', '更改邮箱地址'),
+    ('admin.change_account_type', '更改账号类型'),
+    (deletion_endpoint, '删除用户')
 ] %}
 
 {% macro navigation(items) %}
@@ -23,9 +23,9 @@
 
 {% macro user_info(user) %}
     <table class="ui compact definition table">
-        <tr><td>Full name</td><td>{{ '%s %s' % (user.first_name, user.last_name) }}</td></tr>
-        <tr><td>Email address</td><td>{{ user.email }}</td></tr>
-        <tr><td>Account type</td><td>{{ user.role.name }}</td></tr>
+        <tr><td>全名</td><td>{{ '%s %s' % (user.first_name, user.last_name) }}</td></tr>
+        <tr><td>邮箱地址</td><td>{{ user.email }}</td></tr>
+        <tr><td>账号类型</td><td>{{ user.role.name }}</td></tr>
     </table>
 {% endmacro %}
 
@@ -34,11 +34,11 @@
         <div class="twelve wide column">
             <a class="ui basic compact button" href="{{ url_for('admin.registered_users') }}">
                 <i class="caret left icon"></i>
-                Back to all users
+                返回到所有用户列表
             </a>
             <h2 class="ui header">
                 {{ user.full_name() }}
-                <div class="sub header">View and manage {{ user.first_name }}’s account.</div>
+                <div class="sub header">查看用户： {{ user.first_name }}  的账号信息</div>
             </h2>
         </div>
         <div class="stretched divided very relaxed row">
@@ -50,10 +50,9 @@
                     <h3 class="ui red block header">
                         <i class="warning circle icon"></i>
                         <div class="content">
-                            This action is permanent
+                            此操作不可逆
                             <div class="sub header">
-                                Deleting a user account is not a reversible change. Any information associated
-                                with this account will be removed, and cannot be recovered.
+                                删除用户账号的操作不可逆，账号中的所有信息都将被删除，并且不能够恢复
                             </div>
                         </div>
                     </h3>
@@ -62,11 +61,11 @@
                         <div class="inline field">
                             <div class="ui deletion checkbox">
                                 <input type="checkbox" tabindex="0" class="hidden">
-                                <label>I understand that this action cannot be undone.</label>
+                                <label>我已知该操作不能撤回</label>
                             </div>
                         </div>
                         <a class="ui disabled negative deletion button">
-                            Delete this user
+                            删除用户
                         </a>
                     </div>
                     </div>

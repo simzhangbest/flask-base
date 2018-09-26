@@ -5,17 +5,14 @@
     <div class="ui text container">
 
         <div class="ui padded raised segment">
-            <h3>You need to confirm your account before continuing.</h3>
-
-            <p>When you created an account, you should have received an email from us at {{ current_user.email }}
-            with a link to confirm your email address.</p>
-
+            <h3>在继续操作之前，您需要确认账号信息</h3>
+            <p>当创建了账号之后，您的邮箱 {{ current_user.email }} 会收到一封带有链接的激活邮件，请查看您的邮箱并激活账号</p>
             <div class="ui divider"></div>
 
-            <h3>I didn't receive an email!</h3>
+            <h3>我未收到激活邮件！！！</h3>
 
-            <p>No problem! Just click the button below and we'll send you another one.</p>
-            <a class="ui small button" href="{{ url_for('account.confirm_request') }}">Resend confirmation email</a>
+            <p>如果未收到，可以点击下方的按钮，我们将会重新给您发送一封邮件</p>
+            <a class="ui small button" href="{{ url_for('account.confirm_request') }}">重新发送激活邮件</a>
         </div>
     </div>
 {% endblock %}

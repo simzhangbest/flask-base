@@ -4,7 +4,7 @@
 {% block content %}
     <div class="ui grid container">
         <div class="eight wide computer sixteen wide mobile centered column">
-            <h2 class="ui dividing header">Log in</h2>
+            <h2 class="ui dividing header">登录</h2>
 
             {% set flashes = {
                 'error':   get_flashed_messages(category_filter=['form-error']),
@@ -19,15 +19,14 @@
                 <div class="ui two column grid">
                     {{ f.render_form_field(form.remember_me, extra_classes='column') }}
                     <div class="right aligned column">
-                        <a href="{{ url_for('account.reset_password_request') }}">Forgot password?</a>
+                        <a href="{{ url_for('account.reset_password_request') }}">忘记密码了？</a>
                     </div>
                 </div>
 
-                {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+                {{ f.form_message(flashes['error'], header='登录有误.', class='error') }}
                 {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
                 {{ f.form_message(flashes['info'], header='Information', class='info') }}
                 {{ f.form_message(flashes['success'], header='Success!', class='success') }}
-
                 {{ f.render_form_field(form.submit) }}
             {{ f.end_form(form) }}
         </div>

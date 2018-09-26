@@ -5,15 +5,14 @@
         <div class="sixteen wide tablet twelve wide computer centered column">
             <a class="ui basic compact button" href="{{ url_for('admin.index') }}">
                 <i class="caret left icon"></i>
-                Back to dashboard
+                返回控制台
             </a>
             <h2 class="ui header">
-                Registered Users
+                当前已注册用户
                 <div class="sub header">
-                    View and manage currently registered users.
+                    当前已注册用户，点击显示详细.
                 </div>
             </h2>
-
             <div class="ui menu">
                 <div id="select-role" class="ui dropdown item">
                     <div class="text">
@@ -21,7 +20,7 @@
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <div class="item" data-value="">All account types</div>
+                        <div class="item" data-value="">账户类型</div>
                         {% for r in roles %}
                             <div class="item" data-value="{{ r.name }}">{{ r.name }}s</div>
                         {% endfor %}
@@ -41,10 +40,10 @@
                 <table class="ui searchable sortable unstackable selectable celled table">
                     <thead>
                         <tr>
-                            <th>First name</th>
-                            <th class="sorted ascending">Last name</th>
-                            <th>Email address</th>
-                            <th>Account type</th>
+                            <th>姓</th>
+                            <th class="sorted ascending">名</th>
+                            <th>邮箱</th>
+                            <th>账户类型</th>
                         </tr>
                     </thead>
                     <tbody>

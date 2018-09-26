@@ -15,47 +15,47 @@ from app.models import User
 
 class LoginForm(Form):
     email = EmailField(
-        'Email', validators=[InputRequired(),
+        '邮箱', validators=[InputRequired(),
                              Length(1, 64),
                              Email()])
-    password = PasswordField('Password', validators=[InputRequired()])
-    remember_me = BooleanField('Keep me logged in')
-    submit = SubmitField('Log in')
+    password = PasswordField('密码', validators=[InputRequired()])
+    remember_me = BooleanField('保持登录状态')
+    submit = SubmitField('登录')
 
 
 class RegistrationForm(Form):
     first_name = StringField(
-        'First name', validators=[InputRequired(),
+        '姓', validators=[InputRequired(),
                                   Length(1, 64)])
     last_name = StringField(
-        'Last name', validators=[InputRequired(),
+        '名', validators=[InputRequired(),
                                  Length(1, 64)])
     email = EmailField(
-        'Email', validators=[InputRequired(),
+        '邮箱', validators=[InputRequired(),
                              Length(1, 64),
                              Email()])
     password = PasswordField(
-        'Password',
+        '密码',
         validators=[
             InputRequired(),
-            EqualTo('password2', 'Passwords must match')
+            EqualTo('password2', '两次输入的密码须保持一致！')
         ])
-    password2 = PasswordField('Confirm password', validators=[InputRequired()])
-    submit = SubmitField('Register')
+    password2 = PasswordField('确认密码', validators=[InputRequired()])
+    submit = SubmitField('注册')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered. (Did you mean to '
-                                  '<a href="{}">log in</a> instead?)'.format(
+            raise ValidationError('邮箱已经注册. (需要直接'
+                                  '<a href="{}">登录</a> 吗?)'.format(
                                     url_for('account.login')))
 
 
 class RequestResetPasswordForm(Form):
     email = EmailField(
-        'Email', validators=[InputRequired(),
+        '邮箱', validators=[InputRequired(),
                              Length(1, 64),
                              Email()])
-    submit = SubmitField('Reset password')
+    submit = SubmitField('重设密码')
 
     # We don't validate the email address so we don't confirm to attackers
     # that an account with the given email exists.
@@ -63,57 +63,57 @@ class RequestResetPasswordForm(Form):
 
 class ResetPasswordForm(Form):
     email = EmailField(
-        'Email', validators=[InputRequired(),
+        '邮箱', validators=[InputRequired(),
                              Length(1, 64),
                              Email()])
     new_password = PasswordField(
-        'New password',
+        '新密码',
         validators=[
             InputRequired(),
-            EqualTo('new_password2', 'Passwords must match.')
+            EqualTo('new_password2', '两次输入的密码须保持一致！')
         ])
     new_password2 = PasswordField(
-        'Confirm new password', validators=[InputRequired()])
-    submit = SubmitField('Reset password')
+        '确认新密码', validators=[InputRequired()])
+    submit = SubmitField('重设密码')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first() is None:
-            raise ValidationError('Unknown email address.')
+            raise ValidationError('无效的邮箱地址')
 
 
 class CreatePasswordForm(Form):
     password = PasswordField(
-        'Password',
+        '密码',
         validators=[
             InputRequired(),
-            EqualTo('password2', 'Passwords must match.')
+            EqualTo('password2', '两次输入的密码须保持一致！')
         ])
     password2 = PasswordField(
-        'Confirm new password', validators=[InputRequired()])
-    submit = SubmitField('Set password')
+        '确认新密码', validators=[InputRequired()])
+    submit = SubmitField('设置密码')
 
 
 class ChangePasswordForm(Form):
-    old_password = PasswordField('Old password', validators=[InputRequired()])
+    old_password = PasswordField('老密码', validators=[InputRequired()])
     new_password = PasswordField(
-        'New password',
+        '新密码',
         validators=[
             InputRequired(),
-            EqualTo('new_password2', 'Passwords must match.')
+            EqualTo('new_password2', '两次输入的密码须保持一致！')
         ])
     new_password2 = PasswordField(
-        'Confirm new password', validators=[InputRequired()])
-    submit = SubmitField('Update password')
+        '确认新密码', validators=[InputRequired()])
+    submit = SubmitField('更新密码')
 
 
 class ChangeEmailForm(Form):
     email = EmailField(
-        'New email', validators=[InputRequired(),
+        '新邮箱', validators=[InputRequired(),
                                  Length(1, 64),
                                  Email()])
     password = PasswordField('Password', validators=[InputRequired()])
-    submit = SubmitField('Update email')
+    submit = SubmitField('更新邮箱')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+            raise ValidationError('邮箱已经注册')

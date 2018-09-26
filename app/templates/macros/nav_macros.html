@@ -21,12 +21,12 @@
 
 {% macro header_items(current_user) %}
     {% set endpoints = [
-      ('main.index', config.APP_NAME, 'home'),
-      ('main.about', 'About', 'info')
+      ('main.index', '主页', 'home'),
+      ('main.about', '信息', 'info')
     ]%}
     {% set user = [] %}
     {% if current_user.is_authenticated %}
-      {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' Dashboard', 'user')]) %}
+      {% set user = ([(current_user.role.index + '.index', current_user.role.name + ' 控制台', 'user')]) %}
     {% endif %} 
     {{ render_menu_items( endpoints +  user ) }}
 {% endmacro %}
@@ -37,14 +37,14 @@
 {% macro account_items(current_user) %}
     {% if current_user.is_authenticated %}
       {% set endpoints = [
-        ('account.manage', 'Your Account', 'settings'),
-        ('account.logout', 'Log out', 'sign out')
+        ('account.manage', '我的账号', 'settings'),
+        ('account.logout', '注销登录', 'sign out')
       ] %}
       {{ render_menu_items(endpoints) }}
     {% else %}
       {% set endpoints = [
-        ('account.register', 'Register', 'list layout'),
-        ('account.login', 'Log In', 'sign in')
+        ('account.register', '注册', 'list layout'),
+        ('account.login', '登录', 'sign in')
       ] %}
       {{ render_menu_items(endpoints) }}
     {% endif %}
