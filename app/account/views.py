@@ -101,6 +101,11 @@ def reset_password_request():
             token = user.generate_password_reset_token()
             reset_link = url_for(
                 'account.reset_password', token=token, _external=True)
+
+            # send_email(recipient = user.email,subject = 'Reset Your Password',template = 'account/email/reset_password',
+            #             user = user, reset_link = reset_link,
+            #         next = request.args.get('next'))
+
             get_queue().enqueue(
                 send_email,
                 recipient=user.email,
@@ -109,7 +114,8 @@ def reset_password_request():
                 user=user,
                 reset_link=reset_link,
                 next=request.args.get('next'))
-        flash('A password reset link has been sent to {}.'.format(
+
+        flash('密码重置邮件已经发送至邮箱： {}.'.format(
             form.email.data), 'warning')
         return redirect(url_for('account.login'))
     return render_template('account/reset_password.html', form=form)
@@ -146,10 +152,10 @@ def change_password():
             current_user.password = form.new_password.data
             db.session.add(current_user)
             db.session.commit()
-            flash('Your password has been updated.', 'form-success')
+            flash('你的密码已经更新！', 'form-success')
             return redirect(url_for('main.index'))
         else:
-            flash('Original password is invalid.', 'form-error')
+            flash('初始密码无效！', 'form-error')
     return render_template('account/manage.html', form=form)
 
 

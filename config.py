@@ -11,9 +11,11 @@ else:
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-if os.path.exists('config.env'):
+#print(os.path)
+if os.path.exists(basedir + '/config.env'):
+#if True:
     print('Importing environment from .env file')
-    for line in open('config.env'):
+    for line in open(basedir + '/config.env'):
         var = line.strip().split('=')
         if len(var) == 2:
             os.environ[var[0]] = var[1].replace("\"", "")

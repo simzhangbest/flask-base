@@ -47,7 +47,7 @@ def new_user():
             password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('User {} successfully created'.format(user.full_name()),
+        flash('用户 {} 成功创建 '.format(user.full_name()),
               'form-success')
     return render_template('admin/new_user.html', form=form)
 
@@ -80,7 +80,7 @@ def invite_user():
             user=user,
             invite_link=invite_link,
         )
-        flash('User {} successfully invited'.format(user.full_name()),
+        flash('{} 已经邀请成功 '.format(user.full_name()),
               'form-success')
     return render_template('admin/new_user.html', form=form)
 
@@ -173,7 +173,7 @@ def delete_user(user_id):
         user = User.query.filter_by(id=user_id).first()
         db.session.delete(user)
         db.session.commit()
-        flash('Successfully deleted user %s.' % user.full_name(), 'success')
+        flash('成功删除用户 %s.' % user.full_name(), 'success')
     return redirect(url_for('admin.registered_users'))
 
 
