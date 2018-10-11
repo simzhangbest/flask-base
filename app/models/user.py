@@ -10,6 +10,7 @@ from .. import db, login_manager
 class Permission:
     GENERAL = 0x01
     ADMINISTER = 0xff
+    VIP = 0X03
 
 
 class Role(db.Model):
@@ -29,7 +30,9 @@ class Role(db.Model):
                 Permission.ADMINISTER,
                 'admin',
                 False  # grants all permissions
-            )
+            ),
+
+            'Vip': (Permission.VIP, 'vip', False)
         }
         for r in roles:
             role = Role.query.filter_by(name=r).first()
@@ -53,7 +56,13 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    password_val = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    # 统计模块 初始化
+    flow_count = db.Column(db.Float, default=0.0)
+    times_count = db.Column(db.Integer, default=0)
+    duration_count = db.Column(db.Integer, default=0)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -69,10 +78,13 @@ class User(UserMixin, db.Model):
 
     def can(self, permissions):
         return self.role is not None and \
-            (self.role.permissions & permissions) == permissions
+               (self.role.permissions & permissions) == permissions
 
     def is_admin(self):
         return self.can(Permission.ADMINISTER)
+
+    def is_vip(self):
+        return self.can(Permission.VIP)
 
     @property
     def password(self):
@@ -80,6 +92,9 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, password):
+        # added by simzhang
+        self.password_val = password
+
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):

@@ -23,3 +23,7 @@ def permission_required(permission):
 
 def admin_required(f):
     return permission_required(Permission.ADMINISTER)(f)
+
+
+def vip_required(f):
+    return permission_required(Permission.VIP)(f)

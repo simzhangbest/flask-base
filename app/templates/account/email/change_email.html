@@ -1,13 +1,27 @@
-<p>Dear {{ user.full_name() }},</p>
+{#<p>Dear {{ user.full_name() }},</p>#}
+{##}
+{#<p>To confirm your new email address <a href="{{ change_email_link }}">click here</a>.</p>#}
+{##}
+{#<p>Alternatively, you can paste the following link in your browser's address bar:</p>#}
+{##}
+{#<p>{{ change_email_link }}</p>#}
+{##}
+{#<p>Sincerely,</p>#}
+{##}
+{#<p>The {{ config.APP_NAME }} Team</p>#}
+{##}
+{#<p><small>Note: replies to this email address are not monitored.</small></p>#}
 
-<p>To confirm your new email address <a href="{{ change_email_link }}">click here</a>.</p>
+<p>尊敬的 {{ user.full_name() }}, 您好！</p>
 
-<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p> <a href="{{ change_email_link }}">请点击此处 </a> 确认你的邮箱。</p>
+
+<p>您也可以将如下的链接复制到您的浏览器中来完成邮箱修改：</p>
 
 <p>{{ change_email_link }}</p>
 
-<p>Sincerely,</p>
+<p>此致,</p>
 
 <p>The {{ config.APP_NAME }} Team</p>
 
-<p><small>Note: replies to this email address are not monitored.</small></p>
+<p><small>注：回复此邮件无效.</small></p>

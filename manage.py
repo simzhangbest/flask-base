@@ -10,7 +10,7 @@ from rq import Connection, Queue, Worker
 from app import create_app, db
 from app.models import Role, User
 from config import Config
-
+from flask_script import Server
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -22,15 +22,15 @@ def make_shell_context():
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
+manager.add_command("Server", Server(host='0.0.0.0'))
 
+@manager.command
+def test():
+    """Run the unit tests."""
+    import unittest
 
-# @manager.command
-# def test():
-#     """Run the unit tests."""
-#     import unittest
-#
-#     tests = unittest.TestLoader().discover('tests')
-#     unittest.TextTestRunner(verbosity=2).run(tests)
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
 
 
 @manager.command
@@ -92,14 +92,9 @@ def setup_general():
 def run_worker():
     """Initializes a slim rq task queue."""
     listen = ['default']
-    print("hello world")
     conn = Redis(
-        # host=app.config['RQ_DEFAULT_HOST'],
-        # port=app.config['RQ_DEFAULT_PORT'],
-
-        host='10.64.33.5',
-        port='6379',
-        db=0,
+        host=app.config['RQ_DEFAULT_HOST'],
+        port=app.config['RQ_DEFAULT_PORT'],
         password=app.config['RQ_DEFAULT_PASSWORD'])
 
     with Connection(conn):
@@ -121,5 +116,6 @@ def format():
 
 
 if __name__ == '__main__':
-    #manager.add_command("run_worker", Manager())
+    from flask_script import Server
+    manager.add_command("Server", Server(host='0.0.0.0'))
     manager.run()

@@ -24,7 +24,7 @@
                 </div>
 
                 {{ f.form_message(flashes['error'], header='登录有误.', class='error') }}
-                {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+                {{ f.form_message(flashes['warning'], header='检查您的邮箱', class='warning') }}
                 {{ f.form_message(flashes['info'], header='Information', class='info') }}
                 {{ f.form_message(flashes['success'], header='Success!', class='success') }}
                 {{ f.render_form_field(form.submit) }}

@@ -1,0 +1,1 @@
+from app.vip.views import vip

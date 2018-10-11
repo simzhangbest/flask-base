@@ -1,17 +1,36 @@
-<p>Dear {{ user.full_name() }},</p>
+{#<p>Dear {{ user.full_name() }},</p>#}
+{##}
+{#<p>You are invited to join <b>{{ config.APP_NAME }}</b>!</p>#}
+{##}
+{#<p>To set your password, please <a href="{{ invite_link }}">click here</a>.</p>#}
+{##}
+{#<p>Alternatively, you can paste the following link in your browser's address bar:</p>#}
+{##}
+{#<p>{{ invite_link }}</p>#}
+{##}
+{#<p>Once completed, please log in as {{ user.email }} with the password you set.</p>#}
+{##}
+{#<p>Sincerely,</p>#}
+{##}
+{#<p>The {{ config.APP_NAME }} Team</p>#}
+{##}
+{#<p><small>Note: replies to this email address are not monitored.</small></p>#}
 
-<p>You are invited to join <b>{{ config.APP_NAME }}</b>!</p>
 
-<p>To set your password, please <a href="{{ invite_link }}">click here</a>.</p>
+<p>尊敬的 {{ user.full_name() }}, 您好！</p>
 
-<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>您被邀请注册 <b>{{ config.APP_NAME }}</b>!</p>
+
+<p> <a href="{{ invite_link }}">点击此处</a> 设置您的密码。</p>
+
+<p>您也可以粘贴以下链接到您的浏览器中：</p>
 
 <p>{{ invite_link }}</p>
 
-<p>Once completed, please log in as {{ user.email }} with the password you set.</p>
+<p>当您完成以上操作，请以 帐号：{{ user.email }} ， 和 您设置的密码来登录</p>
 
-<p>Sincerely,</p>
+<p>此致,</p>
 
 <p>The {{ config.APP_NAME }} Team</p>
 
-<p><small>Note: replies to this email address are not monitored.</small></p>
+<p><small>注：回复此邮件无效！</small></p>

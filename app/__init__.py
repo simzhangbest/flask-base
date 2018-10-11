@@ -72,4 +72,8 @@ def create_app(config_name):
     from .admin import admin as admin_blueprint
     app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
+    # added by simzhangbest
+    from .vip import vip as vip_blueprint
+    app.register_blueprint(vip_blueprint, url_prefix='/vip')
+
     return app

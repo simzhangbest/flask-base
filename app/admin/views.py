@@ -75,7 +75,7 @@ def invite_user():
         get_queue().enqueue(
             send_email,
             recipient=user.email,
-            subject='You Are Invited To Join',
+            subject='注册邀请',
             template='account/email/invite',
             user=user,
             invite_link=invite_link,
@@ -121,7 +121,7 @@ def change_user_email(user_id):
         user.email = form.email.data
         db.session.add(user)
         db.session.commit()
-        flash('Email for user {} successfully changed to {}.'.format(
+        flash('用户： {} 成功的将邮箱替换为： {}.'.format(
             user.full_name(), user.email), 'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
@@ -133,8 +133,7 @@ def change_user_email(user_id):
 def change_account_type(user_id):
     """Change a user's account type."""
     if current_user.id == user_id:
-        flash('You cannot change the type of your own account. Please ask '
-              'another administrator to do this.', 'error')
+        flash('您无法改变自己的帐号类型，您可以邀请其他管理员来完成此操作！', 'error')
         return redirect(url_for('admin.user_info', user_id=user_id))
 
     user = User.query.get(user_id)
@@ -145,7 +144,7 @@ def change_account_type(user_id):
         user.role = form.role.data
         db.session.add(user)
         db.session.commit()
-        flash('Role for user {} successfully changed to {}.'.format(
+        flash('用户 {} 的帐号类型成功替换为 {}.'.format(
             user.full_name(), user.role.name), 'form-success')
     return render_template('admin/manage_user.html', user=user, form=form)
 
@@ -167,8 +166,7 @@ def delete_user_request(user_id):
 def delete_user(user_id):
     """Delete a user's account."""
     if current_user.id == user_id:
-        flash('You cannot delete your own account. Please ask another '
-              'administrator to do this.', 'error')
+        flash('您不可以删除自己账号，您可以邀请其他管理原完成此操作！', 'error')
     else:
         user = User.query.filter_by(id=user_id).first()
         db.session.delete(user)

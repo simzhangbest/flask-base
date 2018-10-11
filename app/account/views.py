@@ -40,6 +40,7 @@ def login():
                 user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             flash('登录成功，欢迎回来!', 'success')
+            print(request.args.get('next'))
             return redirect(request.args.get('next') or url_for('main.index'))
         else:
             flash('用户名或者密码无效.', 'form-error')
@@ -102,14 +103,10 @@ def reset_password_request():
             reset_link = url_for(
                 'account.reset_password', token=token, _external=True)
 
-            # send_email(recipient = user.email,subject = 'Reset Your Password',template = 'account/email/reset_password',
-            #             user = user, reset_link = reset_link,
-            #         next = request.args.get('next'))
-
             get_queue().enqueue(
                 send_email,
                 recipient=user.email,
-                subject='Reset Your Password',
+                subject='重置密碼',
                 template='account/email/reset_password',
                 user=user,
                 reset_link=reset_link,
@@ -173,7 +170,7 @@ def change_email_request():
             get_queue().enqueue(
                 send_email,
                 recipient=new_email,
-                subject='Confirm Your New Email',
+                subject='确认您的新邮箱',
                 template='account/email/change_email',
                 # current_user is a LocalProxy, we want the underlying user
                 # object
@@ -207,7 +204,7 @@ def confirm_request():
     get_queue().enqueue(
         send_email,
         recipient=current_user.email,
-        subject='Confirm Your Account',
+        subject='确认您的帐号',
         template='account/email/confirm',
         # current_user is a LocalProxy, we want the underlying user object
         user=current_user._get_current_object(),
@@ -269,7 +266,7 @@ def join_from_invite(user_id, token):
         get_queue().enqueue(
             send_email,
             recipient=new_user.email,
-            subject='You Are Invited To Join',
+            subject='您被邀请注册',
             template='account/email/invite',
             user=new_user,
             invite_link=invite_link)
